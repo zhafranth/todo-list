@@ -23,7 +23,7 @@ jobs:
       - name: Deploy to DigitalOcean
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            cd /home/myapp/next-app  # Sesuaikan dengan direktori project di VPS
+            cd /root/todo-list  # Sesuaikan dengan direktori project di VPS
             git pull origin main
             yarn install
             yarn build
