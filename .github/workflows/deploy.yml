@@ -27,5 +27,5 @@ jobs:
             git pull origin main
             yarn install
             yarn build
-            pm2 restart my-next-app
+            pm2 restart todo-list
           EOF
