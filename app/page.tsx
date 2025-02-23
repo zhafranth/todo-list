@@ -5,9 +5,11 @@ import useTheme from "@/utils/useTheme";
 import { IoSunny } from "react-icons/io5";
 import { FaCloudMoon } from "react-icons/fa";
 import CardTodo from "@/components/CardTodo";
+import { useGetTasks } from "@/actions/hooks";
 
 export default function Home() {
   const { toggleTheme, theme } = useTheme();
+  const { data = [] } = useGetTasks();
   return (
     <main className="container bg-neutral-50 dark:bg-neutral-900 min-h-screen px-8 py-10">
       <div className="flex items-center justify-between">
@@ -23,10 +25,9 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col gap-8 my-12">
-        <CardTodo />
-        <CardTodo />
-        <CardTodo />
-        <CardTodo />
+        {data?.map((item, index) => (
+          <CardTodo key={index} data={item} />
+        ))}
       </div>
     </main>
   );
