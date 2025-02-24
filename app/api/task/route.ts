@@ -14,7 +14,7 @@ export const GET = async () => {
   } catch (error) {
     console.log("error:", error);
     return Response.json({
-      message: "error",
+      message: error,
     });
   }
 };
