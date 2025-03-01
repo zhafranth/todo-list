@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import CardTodo from "@/components/CardTodo";
 import { useGetTasks } from "@/actions/hooks";
-import { HiPlus } from "react-icons/hi";
 import ToggleTheme from "@/components/ToggleTheme";
+import FilterDate from "@/components/FilterDate";
+import AddTask from "@/components/AddTask";
 
 export default function Home() {
   const { data = [] } = useGetTasks();
@@ -20,10 +20,10 @@ export default function Home() {
           </h2>
           <p className="text-slate-400 mt-1">Minggu, 10 Januari 2024</p>
         </div>
-        <Button variant="secondary" color="primary">
-          <HiPlus /> Tambah Task
-        </Button>
+        <AddTask />
       </div>
+
+      <FilterDate />
 
       <div className="flex flex-col gap-8 my-12">
         {data?.map((item, index) => (
