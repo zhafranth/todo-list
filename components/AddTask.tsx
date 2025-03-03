@@ -26,6 +26,7 @@ import { Calendar } from "./ui/calendar";
 import { formatDate } from "date-fns";
 import { cn } from "@/lib/utils";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import { useTask } from "@/actions/hooks";
 
 const formSchema = z.object({
   title: z.string().nonempty("Title is required"),
@@ -33,10 +34,13 @@ const formSchema = z.object({
   dueAt: z.date({
     required_error: "Due date is required",
   }),
-  priority: z.string().nonempty("Priority is required"),
+  priority: z.enum(["LOW", "MEDIUM", "HIGH"]),
 });
 
 const AddTask = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const { mutate } = useTask();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,10 +49,28 @@ const AddTask = () => {
   });
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    alert(JSON.stringify(data));
+    mutate(
+      {
+        title: data.title,
+        description: data.description,
+        dueAt: new Date(data.dueAt),
+        priority: data.priority,
+      },
+      {
+        onSuccess: () => {
+          form.reset();
+          toggleDrawer();
+        },
+      }
+    );
   };
+
+  const toggleDrawer = React.useCallback(
+    () => setIsOpen((prevState) => !prevState),
+    []
+  );
   return (
-    <Drawer>
+    <Drawer open={isOpen} onOpenChange={toggleDrawer} onClose={toggleDrawer}>
       <DrawerTrigger asChild>
         <Button variant="secondary" color="primary" className="rounded-lg">
           <HiPlus /> Tambah Task
