@@ -10,7 +10,7 @@ interface CardTodoProps {
   data: Task;
 }
 
-const PriorityBadge: React.FC<{ value: number }> = ({ value }) => {
+const PriorityBadge: React.FC<{ value: string }> = ({ value }) => {
   const { label } =
     useMemo(() => {
       return PRIORITY_LEVELS.find((item) => item.value === value);

@@ -1,17 +1,17 @@
 export const PRIORITY_LEVELS = [
   {
     label: "High",
-    value: 2,
+    value: "HIGH",
     color: "bg-red-300",
   },
   {
     label: "Medium",
-    value: 1,
+    value: "MEDIUM",
     color: "bg-yellow-300",
   },
   {
     label: "Low",
-    value: 0,
+    value: "LOW",
     color: "bg-blue-300",
   },
 ];
