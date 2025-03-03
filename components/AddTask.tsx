@@ -25,6 +25,7 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "./ui/calendar";
 import { formatDate } from "date-fns";
 import { cn } from "@/lib/utils";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 
 const formSchema = z.object({
   title: z.string().nonempty("Title is required"),
@@ -32,11 +33,15 @@ const formSchema = z.object({
   dueAt: z.date({
     required_error: "Due date is required",
   }),
+  priority: z.string().nonempty("Priority is required"),
 });
 
 const AddTask = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      priority: "LOW",
+    },
   });
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
@@ -83,6 +88,43 @@ const AddTask = () => {
                       </FormItem>
                     );
                   }}
+                />
+                <FormField
+                  control={form.control}
+                  name="priority"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel>Priority</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          className="flex space-y-1"
+                          defaultValue={field.value}
+                        >
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="LOW" />
+                            </FormControl>
+                            <FormLabel className="font-normal">Low</FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="MEDIUM" />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              Medium
+                            </FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="HIGH" />
+                            </FormControl>
+                            <FormLabel className="font-normal">High</FormLabel>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                    </FormItem>
+                  )}
                 />
                 <FormField
                   control={form.control}

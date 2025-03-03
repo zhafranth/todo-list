@@ -13,11 +13,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
 model Task {
   id  String @id @default(uuid())
   title String
   description String?
-  priority Int
+  priority Priority @default(LOW)
   status Boolean @default(false)
   createdAt DateTime @default(now())
   dueAt DateTime
