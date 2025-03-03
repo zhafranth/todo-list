@@ -25,6 +25,7 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "./ui/calendar";
 import { formatDate } from "date-fns";
 import { cn } from "@/lib/utils";
+import { DatePicker } from "./ui/datepicker";
 
 const formSchema = z.object({
   title: z.string().nonempty("Title is required"),
@@ -50,6 +51,7 @@ const AddTask = () => {
         </Button>
       </DrawerTrigger>
       <DrawerContent>
+        <DatePicker />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="mx-auto w-full max-w-lg">
