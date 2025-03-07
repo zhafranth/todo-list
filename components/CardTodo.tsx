@@ -2,12 +2,12 @@
 
 import React, { useMemo, useState } from "react";
 import { Badge } from "./ui/badge";
-import { HiBadgeCheck } from "react-icons/hi";
 import { Task } from "@prisma/client";
 import { PRIORITY_LEVELS } from "@/constant";
 import { formatDate } from "@/utils/format";
 import { Checkbox } from "./ui/checkbox";
 import ModalConfirmation from "./ModalConfirmation";
+import ActionTodo from "./ActionTodo";
 
 interface CardTodoProps {
   data: Task;
@@ -48,9 +48,7 @@ const CardTodo: React.FC<CardTodoProps> = ({ data }) => {
       <div className="w-full rounded-xl px-8 py-10 bg-white dark:bg-neutral-800 text-slate-800 dark:text-slate-100 shadow-md">
         <div className="flex justify-between items-center mb-3">
           <PriorityBadge value={priority} />
-          <div className="text-4xl text-blue-500">
-            {status && <HiBadgeCheck />}
-          </div>
+          <ActionTodo />
         </div>
         <div className="flex gap-x-2 ">
           <Checkbox
