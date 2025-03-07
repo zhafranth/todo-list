@@ -54,12 +54,18 @@ const CardTodo: React.FC<CardTodoProps> = ({ data }) => {
         </div>
         <div className="flex gap-x-2 ">
           <Checkbox
-            className="mt-2"
-            checked
+            className="mt-1"
+            checked={status as boolean}
             onCheckedChange={handleChangeStatus}
           />
           <div>
-            <h2 className="text-xl font-semibold line-through">{title}</h2>
+            <h2
+              className={`text-xl font-semibold ${
+                status ? "line-through" : ""
+              }`}
+            >
+              {title}
+            </h2>
             <p className="text-slate-500 dark:text-slate-200">{description}</p>
           </div>
         </div>
@@ -71,7 +77,7 @@ const CardTodo: React.FC<CardTodoProps> = ({ data }) => {
           </div>
         </div>
       </div>
-      {isOpen && <ModalConfirmation toggle={handleChangeStatus} />}
+      {isOpen && <ModalConfirmation toggle={handleChangeStatus} data={data} />}
     </>
   );
 };

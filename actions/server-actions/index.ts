@@ -24,3 +24,21 @@ export const actionCreateTask = async (data: TaskPayload) => {
     throw new Error("Failed to create task");
   }
 };
+
+export const actionUpdateStatus = async (id: string, status: boolean) => {
+  try {
+    await prisma.task.update({
+      where: {
+        id,
+      },
+      data: { status },
+    });
+    return {
+      status: 200,
+      message: "Success update status task",
+    };
+  } catch (error) {
+    console.log("error:", error);
+    throw new Error("Failed to update status task");
+  }
+};
