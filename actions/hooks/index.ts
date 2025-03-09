@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createTask, getTasks, updateTask } from "../networks";
+import { createTask, deleteTask, getTasks, updateTask } from "../networks";
 import { TaskPayload } from "../server-actions";
 import { toast } from "sonner";
 
@@ -39,4 +39,21 @@ export const useUpdateStatus = () => {
       toast.error(message);
     },
   });
+};
+
+export const useUpdateTask = () => {
+  const queryClient = useQueryClient();
+
+  const { mutate: mutateDeleteTask, isPending: loadingDelete } = useMutation({
+    mutationFn: (id: string) => deleteTask(id),
+    onSuccess: ({ message }) => {
+      toast.success(message);
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+    onError: ({ message }) => {
+      toast.error(message);
+    },
+  });
+
+  return { mutateDeleteTask, loadingDelete };
 };

@@ -5,6 +5,7 @@ import { useGetTasks } from "@/actions/hooks";
 import ToggleTheme from "@/components/ToggleTheme";
 import FilterDate from "@/components/FilterDate";
 import AddTask from "@/components/AddTask";
+import { formatDate } from "@/utils/format";
 
 export default function Home() {
   const { data = [] } = useGetTasks();
@@ -16,9 +17,9 @@ export default function Home() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold text-neutral-700 dark:text-neutral-300">
-            Today&apos;s Task
+            Task
           </h2>
-          <p className="text-slate-400 mt-1">Minggu, 10 Januari 2024</p>
+          <p className="text-slate-400 mt-1">{formatDate(new Date())}</p>
         </div>
         <AddTask />
       </div>

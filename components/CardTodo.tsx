@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Badge } from "./ui/badge";
 import { Task } from "@prisma/client";
 import { PRIORITY_LEVELS } from "@/constant";
@@ -8,6 +8,7 @@ import { formatDate } from "@/utils/format";
 import { Checkbox } from "./ui/checkbox";
 import ModalConfirmation from "./ModalConfirmation";
 import ActionTodo from "./ActionTodo";
+import { useUpdateStatus } from "@/actions/hooks";
 
 interface CardTodoProps {
   data: Task;
@@ -39,22 +40,39 @@ const PriorityBadge: React.FC<{ value: string }> = ({ value }) => {
 
 const CardTodo: React.FC<CardTodoProps> = ({ data }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { title, description, status, priority, dueAt } = data ?? {};
+  const { title, description, status, priority, dueAt, id } = data ?? {};
 
-  const handleChangeStatus = () => setIsOpen((prevState) => !prevState);
+  const toggleConfirmation = useCallback(
+    () => setIsOpen((prevState) => !prevState),
+    []
+  );
 
+  const { mutate } = useUpdateStatus();
+  const handleChangeStatus = useCallback(() => {
+    mutate(
+      {
+        id,
+        status: !status,
+      },
+      {
+        onSuccess: () => {
+          toggleConfirmation();
+        },
+      }
+    );
+  }, [id, mutate, status, toggleConfirmation]);
   return (
     <>
       <div className="w-full rounded-xl px-8 py-10 bg-white dark:bg-neutral-800 text-slate-800 dark:text-slate-100 shadow-md">
         <div className="flex justify-between items-center mb-3">
           <PriorityBadge value={priority} />
-          <ActionTodo />
+          <ActionTodo data={data} />
         </div>
         <div className="flex gap-x-2 ">
           <Checkbox
             className="mt-1"
             checked={status as boolean}
-            onCheckedChange={handleChangeStatus}
+            onCheckedChange={toggleConfirmation}
           />
           <div>
             <h2
@@ -75,7 +93,14 @@ const CardTodo: React.FC<CardTodoProps> = ({ data }) => {
           </div>
         </div>
       </div>
-      {isOpen && <ModalConfirmation toggle={handleChangeStatus} data={data} />}
+      {isOpen && (
+        <ModalConfirmation
+          title="Update Status"
+          description={`Apakah status ${status ? "Belum Selesai" : "Selesai"}`}
+          onClose={toggleConfirmation}
+          onSubmit={handleChangeStatus}
+        />
+      )}
     </>
   );
 };

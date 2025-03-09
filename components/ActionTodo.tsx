@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,8 +7,31 @@ import {
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { EllipsisVertical, Pencil, Trash } from "lucide-react";
+import ModalConfirmation from "./ModalConfirmation";
+import { useUpdateTask } from "@/actions/hooks";
+import { Task } from "@prisma/client";
 
-const ActionTodo = () => {
+interface IActionTodo {
+  data: Task;
+}
+
+const ActionTodo: React.FC<IActionTodo> = ({ data }) => {
+  const { id, title } = data ?? {};
+
+  const [openedModal, setOpenedModal] = useState<null | "del" | "edit">(null);
+  const { mutateDeleteTask } = useUpdateTask();
+
+  const handleShowModal = (modal: "del" | "edit") => {
+    setOpenedModal(modal);
+  };
+
+  const closeModal = () => setOpenedModal(null);
+
+  const handleDeleteTask = () => {
+    mutateDeleteTask(id);
+    closeModal();
+  };
+
   return (
     <>
       <DropdownMenu>
@@ -18,7 +41,7 @@ const ActionTodo = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleShowModal("del")}>
             <Trash />
             Hapus
           </DropdownMenuItem>
@@ -28,6 +51,19 @@ const ActionTodo = () => {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      {openedModal === "del" && (
+        <ModalConfirmation
+          title="Hapus Task"
+          description={
+            <p>
+              Apakah anda yakin akan menghapus{" "}
+              <span className="font-semibold">{title}</span>
+            </p>
+          }
+          onClose={closeModal}
+          onSubmit={handleDeleteTask}
+        />
+      )}
     </>
   );
 };

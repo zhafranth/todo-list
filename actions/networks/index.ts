@@ -2,6 +2,7 @@ import apiRequest, { ApiResponse } from "@/config/axios";
 import { Task } from "@prisma/client";
 import {
   actionCreateTask,
+  actionDeleteTask,
   actionUpdateStatus,
   TaskPayload,
 } from "../server-actions";
@@ -22,5 +23,10 @@ export const createTask = async (data: TaskPayload) => {
 
 export const updateTask = async (id: string, status: boolean) => {
   const response = await actionUpdateStatus(id, status);
+  return response;
+};
+
+export const deleteTask = async (id: string) => {
+  const response = await actionDeleteTask(id);
   return response;
 };

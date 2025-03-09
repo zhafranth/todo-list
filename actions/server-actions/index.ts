@@ -42,3 +42,20 @@ export const actionUpdateStatus = async (id: string, status: boolean) => {
     throw new Error("Failed to update status task");
   }
 };
+
+export const actionDeleteTask = async (id: string) => {
+  try {
+    await prisma.task.delete({
+      where: {
+        id,
+      },
+    });
+    return {
+      status: 200,
+      message: "Success delete task",
+    };
+  } catch (error) {
+    console.log("error:", error);
+    throw new Error("Failed to delete task");
+  }
+};
