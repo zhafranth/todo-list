@@ -10,6 +10,7 @@ import { EllipsisVertical, Pencil, Trash } from "lucide-react";
 import ModalConfirmation from "./ModalConfirmation";
 import { useUpdateTask } from "@/actions/hooks";
 import { Task } from "@prisma/client";
+import FormTask from "./FormTask";
 
 interface IActionTodo {
   data: Task;
@@ -45,7 +46,7 @@ const ActionTodo: React.FC<IActionTodo> = ({ data }) => {
             <Trash />
             Hapus
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleShowModal("edit")}>
             <Pencil />
             Edit
           </DropdownMenuItem>
@@ -64,6 +65,12 @@ const ActionTodo: React.FC<IActionTodo> = ({ data }) => {
           onSubmit={handleDeleteTask}
         />
       )}
+      <FormTask
+        isOpen={openedModal === "edit"}
+        mode="edit"
+        toggle={closeModal}
+        data={data}
+      />
     </>
   );
 };

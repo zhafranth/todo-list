@@ -4,6 +4,7 @@ import {
   actionCreateTask,
   actionDeleteTask,
   actionUpdateStatus,
+  actionUpdateTask,
   TaskPayload,
 } from "../server-actions";
 
@@ -21,12 +22,17 @@ export const createTask = async (data: TaskPayload) => {
   return response;
 };
 
-export const updateTask = async (id: string, status: boolean) => {
+export const updateStatusTask = async (id: string, status: boolean) => {
   const response = await actionUpdateStatus(id, status);
   return response;
 };
 
 export const deleteTask = async (id: string) => {
   const response = await actionDeleteTask(id);
+  return response;
+};
+
+export const updateTask = async (id: string, data: TaskPayload) => {
+  const response = await actionUpdateTask(id, data);
   return response;
 };

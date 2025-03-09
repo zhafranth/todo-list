@@ -43,6 +43,24 @@ export const actionUpdateStatus = async (id: string, status: boolean) => {
   }
 };
 
+export const actionUpdateTask = async (id: string, data: TaskPayload) => {
+  try {
+    await prisma.task.update({
+      where: {
+        id,
+      },
+      data,
+    });
+    return {
+      status: 200,
+      message: "Success update task",
+    };
+  } catch (error) {
+    console.log("error:", error);
+    throw new Error("Failed to update task");
+  }
+};
+
 export const actionDeleteTask = async (id: string) => {
   try {
     await prisma.task.delete({
