@@ -8,11 +8,13 @@ import {
 } from "../networks";
 import { TaskPayload } from "../server-actions";
 import { toast } from "sonner";
+import { Params } from "../networks/interface";
 
-export const useGetTasks = () => {
+export const useGetTasks = (params: Params, enabled: boolean) => {
   return useQuery({
-    queryKey: ["tasks"],
-    queryFn: () => getTasks(),
+    queryKey: ["tasks", params],
+    queryFn: () => getTasks(params),
+    enabled,
   });
 };
 

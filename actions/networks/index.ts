@@ -7,11 +7,13 @@ import {
   actionUpdateTask,
   TaskPayload,
 } from "../server-actions";
+import { Params } from "./interface";
 
-export const getTasks = async () => {
+export const getTasks = async (params: Params) => {
   const response: ApiResponse<Task[]> = await apiRequest({
     method: "GET",
     url: "/task",
+    params,
   });
 
   return response.data.data;

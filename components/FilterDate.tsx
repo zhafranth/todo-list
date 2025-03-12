@@ -1,32 +1,63 @@
-import React from "react";
-import { Badge } from "./ui/badge";
+"use client";
 
-const FilterDate = () => {
-  const dateOptions = [
-    {
-      label: "Today",
-      value: "today",
-    },
-    {
-      label: "This Week",
-      value: "this_week",
-    },
-    {
-      label: "This month",
-      value: "this_month",
-    },
-  ];
+import * as React from "react";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { DateRange } from "react-day-picker";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+interface IFilterDate {
+  date: DateRange | undefined;
+  handleChangeDate: (value?: DateRange) => void;
+}
+
+const FilterDate = ({ date, handleChangeDate }: IFilterDate) => {
   return (
-    <div className="flex gap-x-4 items-center mt-5">
-      {dateOptions.map((item, index) => (
-        <Badge
-          key={index}
-          className="cursor-pointer bg-blue-200 dark:bg-blue-950 text-blue-600 dark:text-blue-100"
-          variant="secondary"
-        >
-          {item.label}
-        </Badge>
-      ))}
+    <div className={cn("grid gap-2")}>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            id="date"
+            variant={"outline"}
+            className={cn(
+              "w-[300px] justify-start text-left font-normal",
+              !date && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon />
+            {date?.from ? (
+              date.to ? (
+                <>
+                  {format(date.from, "LLL dd, y")} -{" "}
+                  {format(date.to, "LLL dd, y")}
+                </>
+              ) : (
+                format(date.from, "LLL dd, y")
+              )
+            ) : (
+              <span>Pick a date</span>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            initialFocus
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            onSelect={handleChangeDate}
+            numberOfMonths={2}
+          />
+        </PopoverContent>
+      </Popover>
     </div>
   );
 };
