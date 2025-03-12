@@ -13,7 +13,7 @@ export const GET = async (request: Request) => {
     const tasks = await prisma.task.findMany({
       where: {
         dueAt: {
-          gt: parsedStartDate,
+          gte: parsedStartDate,
           lte: parsedEndDate,
         },
       },
