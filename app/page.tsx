@@ -33,17 +33,17 @@ export default function Home() {
 
   return (
     <main className="container bg-neutral-50 dark:bg-neutral-900 min-h-screen px-8 py-10">
-      <div className="flex justify-end">
-        <ToggleTheme />
-      </div>
-      <div className="flex items-end justify-between ">
+      <div className="flex items-start justify-between mb-4">
         <div>
           <h2 className="text-3xl font-bold text-neutral-700 dark:text-neutral-300">
             Task
           </h2>
           <p className="text-slate-400 mt-1">{formatDate(new Date())}</p>
-          <FilterDate date={date} handleChangeDate={handleChangeDate} />
         </div>
+        <ToggleTheme />
+      </div>
+      <div className="flex justify-between flex-wrap gap-2">
+        <FilterDate date={date} handleChangeDate={handleChangeDate} />
         <AddTask />
       </div>
 

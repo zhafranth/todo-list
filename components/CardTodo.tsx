@@ -63,7 +63,7 @@ const CardTodo: React.FC<CardTodoProps> = ({ data }) => {
   }, [id, mutate, status, toggleConfirmation]);
   return (
     <>
-      <div className="w-full rounded-xl px-8 py-10 bg-white dark:bg-neutral-800 text-slate-800 dark:text-slate-100 shadow-md">
+      <div className="w-full rounded-xl px-4 py-6 bg-white dark:bg-neutral-800 text-slate-800 dark:text-slate-100 shadow-md">
         <div className="flex justify-between items-center mb-3">
           <PriorityBadge value={priority} />
           <ActionTodo data={data} />
@@ -85,11 +85,11 @@ const CardTodo: React.FC<CardTodoProps> = ({ data }) => {
             <p className="text-slate-500 dark:text-slate-200">{description}</p>
           </div>
         </div>
-        <div className="h-[1px] w-full my-5 bg-slate-200"></div>
+        <div className="h-[1px] w-full my-3 bg-slate-200"></div>
         <div className="flex gap-x-5 text-sm text-slate-500 dark:text-slate-200">
           <div>
             <p>Due Date</p>
-            <p>{formatDate(dueAt)}</p>
+            <p className="font-semibold">{formatDate(dueAt)}</p>
           </div>
         </div>
       </div>
